@@ -1,4 +1,5 @@
 using Assessment.Data;
+using Assessment.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +30,8 @@ namespace Assessment
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AssessmentDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
+
+            services.AddScoped<IPersonService, PersonService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
