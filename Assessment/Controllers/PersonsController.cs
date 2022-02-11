@@ -35,7 +35,7 @@ namespace Assessment.Controllers
                await _personService.AddPerson(person);
                 return Ok("Person is addedd");
             }
-            catch (Exception ex)
+            catch
             {
                 return BadRequest("Person can not be added");
                 
@@ -49,7 +49,7 @@ namespace Assessment.Controllers
                 await _personService.DeletePerson(id);
                 return Ok("Person is deleted");
             }
-            catch (Exception ex)
+            catch
             {
                 return BadRequest("Person can not be deleted");
 

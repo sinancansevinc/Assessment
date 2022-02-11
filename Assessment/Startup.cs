@@ -32,6 +32,7 @@ namespace Assessment
             services.AddDbContext<AssessmentDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnectionString")));
 
             services.AddScoped<IPersonService, PersonService>();
+            services.AddScoped<IContactService, ContactService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
