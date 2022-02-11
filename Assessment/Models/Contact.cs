@@ -14,7 +14,7 @@ namespace Assessment.Models
         public int TypeId { get; set; }
         [Required]
 
-        public string Content { get; set; }
+        public string ContactContent { get; set; }
         [Required]
 
         public int EmployeeId { get; set; }

@@ -25,7 +25,7 @@ namespace Assessment.Services
             {
                 EmployeeId = personContactViewModel.EmployeeId,
                 TypeId = personContactViewModel.ContactTypeId,
-                Content = personContactViewModel.ContactContent
+                ContactContent = personContactViewModel.ContactContent
 
             };
 
@@ -40,19 +40,21 @@ namespace Assessment.Services
 
         }
 
-        public async Task<List<ContactListDto>>GetContactInformationsByEmployeeId(int employeeId)
+        public async Task<List<ContactListDto>> GetContactInformationsByEmployeeId(int employeeId)
         {
-            var contactDetails =await (from c in _context.Contacts join p in _context.Persons on c.EmployeeId equals p.UUID
-                                  join t in _context.ContactTypes on c.TypeId equals t.Id where p.UUID == employeeId
-                                  select new ContactListDto
-                                  {
-                                      Name = p.Name,
-                                      Surname = p.Surname,
-                                      Company = p.Company,
-                                      Type = t.Type,
-                                      Content = c.Content
+            var contactDetails = await (from c in _context.Contacts
+                                        join p in _context.Persons on c.EmployeeId equals p.UUID
+                                        join t in _context.ContactTypes on c.TypeId equals t.Id
+                                        where p.UUID == employeeId
+                                        select new ContactListDto
+                                        {
+                                            Name = p.Name,
+                                            Surname = p.Surname,
+                                            Company = p.Company,
+                                            Type = t.Type,
+                                            Content = c.ContactContent
 
-                                  }).ToListAsync();
+                                        }).ToListAsync();
 
             return contactDetails;
         }

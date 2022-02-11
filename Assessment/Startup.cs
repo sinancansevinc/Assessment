@@ -33,6 +33,7 @@ namespace Assessment
 
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IContactService, ContactService>();
+            services.AddScoped<IReportService, ReportService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
