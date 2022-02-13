@@ -1,4 +1,5 @@
-﻿using Assessment.Services;
+﻿using Assessment.Cache;
+using Assessment.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,10 +20,12 @@ namespace Assessment.Controllers
             _reportService = reportService;
         }
 
-        [HttpGet("GetLocationCountOrderByDescending")]
-        public async Task<IActionResult> GetLocationCountOrderByDescending()
+        [HttpPost("GetLocationCountOrderByDescending")]
+        [Cached(600)]
+
+        public async Task<IActionResult> GetLocationCountOrderByDescending(int typeId)
         {
-            var locationCountList = await _reportService.GetLocationCount();
+            var locationCountList = await _reportService.GetLocationCount(typeId);
 
             if (locationCountList != null)
             {
@@ -32,9 +35,11 @@ namespace Assessment.Controllers
             return NotFound();
         }
         [HttpPost("GetPersonCountByLocation")]
-        public async Task<IActionResult> GetPersonCountByLocation(string location)
+        [Cached(600)]
+
+        public async Task<IActionResult> GetPersonCountByLocation(string location,int typeId)
         {
-            var personCountList = await _reportService.GetPersonCountByLocation(location);
+            var personCountList = await _reportService.GetPersonCountByLocation(location,typeId);
 
             if (personCountList != null)
             {
@@ -45,9 +50,11 @@ namespace Assessment.Controllers
 
         }
         [HttpPost("GetPhoneCountByLocation")]
-        public async Task<IActionResult> GetPhoneCountByLocation(string location)
+        [Cached(600)]
+
+        public async Task<IActionResult> GetPhoneCountByLocation(string location,int typeId)
         {
-            var phoneCountList = await _reportService.GetPhoneCountByLocation(location);
+            var phoneCountList = await _reportService.GetPhoneCountByLocation(location,typeId);
 
             if (phoneCountList != null)
             {

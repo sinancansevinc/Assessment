@@ -18,9 +18,9 @@ namespace Assessment.Services
             _context = context;
         }
 
-        public async Task<List<ReportLocationDto>> GetLocationCount()
+        public async Task<List<ReportLocationDto>> GetLocationCount(int typeId)
         {
-            var locationInformations = await _context.Contacts.Where(t => t.TypeId == 3).ToListAsync();
+            var locationInformations = await _context.Contacts.Where(t => t.TypeId == typeId).ToListAsync();
 
             var list = locationInformations.GroupBy(l => l.ContactContent).Select(c => new ReportLocationDto
             {
@@ -32,15 +32,15 @@ namespace Assessment.Services
 
             return list;
         }
-        public async Task<List<Contact>> GetPersonCountByLocation(string location)
+        public async Task<List<Contact>> GetPersonCountByLocation(string location,int typeId)
         {
-            var locationList = await _context.Contacts.Where(t => t.TypeId == 3 && t.ContactContent == location).ToListAsync();
+            var locationList = await _context.Contacts.Where(t => t.TypeId == typeId && t.ContactContent == location).ToListAsync();
 
             return locationList;
         }
-        public async Task<List<Contact>> GetPhoneCountByLocation(string location)
+        public async Task<List<Contact>> GetPhoneCountByLocation(string location,int typeId)
         {
-            var locationInformations = await _context.Contacts.Where(t => t.TypeId == 3 && t.ContactContent==location).ToListAsync();
+            var locationInformations = await _context.Contacts.Where(t => t.TypeId == typeId && t.ContactContent==location).ToListAsync();
 
             var result = (from c in locationInformations
                           join p in _context.Contacts on c.PersonId equals p.PersonId into ps

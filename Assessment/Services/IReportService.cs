@@ -9,9 +9,9 @@ namespace Assessment.Services
 {
     public interface IReportService
     {
-        Task<List<ReportLocationDto>> GetLocationCount();
-        Task<List<Contact>> GetPersonCountByLocation(string location);
-        Task<List<Contact>> GetPhoneCountByLocation(string location);
+        Task<List<ReportLocationDto>> GetLocationCount(int typeId);
+        Task<List<Contact>> GetPersonCountByLocation(string location,int typeId);
+        Task<List<Contact>> GetPhoneCountByLocation(string location,int typeId);
 
     }
 }

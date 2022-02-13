@@ -1,3 +1,4 @@
+using Assessment.Cache;
 using Assessment.Data;
 using Assessment.Services;
 using Microsoft.AspNetCore.Builder;
@@ -34,6 +35,12 @@ namespace Assessment
             services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IContactService, ContactService>();
             services.AddScoped<IReportService, ReportService>();
+
+            var redisCacheSettings = new RedisCacheSettings();
+            Configuration.GetSection(nameof(RedisCacheSettings)).Bind(redisCacheSettings);
+            services.AddSingleton(redisCacheSettings);
+            services.AddStackExchangeRedisCache(options => options.Configuration = redisCacheSettings.ConnectionString);
+            services.AddSingleton<IResponseCacheService, ResponseCacheService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

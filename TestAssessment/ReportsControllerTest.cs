@@ -60,13 +60,15 @@ namespace TestAssessment
             };
 
         }
-        [Fact]
-        public async void GetLocationCount_ActionRun_ReturnOkResultWithLocations()
+        
+        [Theory]
+        [InlineData(1)]
+        public async void GetLocationCount_ActionRun_ReturnOkResultWithLocations(int typeId)
         {
             var locationCountList = reportLocationListDtos;
-            _mockRepo.Setup(x => x.GetLocationCount()).ReturnsAsync(locationCountList);
+            _mockRepo.Setup(x => x.GetLocationCount(typeId)).ReturnsAsync(locationCountList);
 
-            var result = await _controller.GetLocationCountOrderByDescending();
+            var result = await _controller.GetLocationCountOrderByDescending(typeId);
 
             var okResult = Assert.IsType<OkObjectResult>(result);
 
@@ -75,26 +77,27 @@ namespace TestAssessment
             Assert.Equal<int>(2, returnPersons.Count);
         }
 
-        [Fact]
-        public async void GetLocationCount_ActionRun_ReturnNotFound()
+        [Theory]
+        [InlineData(1)]
+        public async void GetLocationCount_ActionRun_ReturnNotFound(int typeId)
         {
             List<ReportLocationDto> reportLocationDtos = null;
-            _mockRepo.Setup(x => x.GetLocationCount()).ReturnsAsync(reportLocationDtos);
-            var result = await _controller.GetLocationCountOrderByDescending();
+            _mockRepo.Setup(x => x.GetLocationCount(typeId)).ReturnsAsync(reportLocationDtos);
+            var result = await _controller.GetLocationCountOrderByDescending(typeId);
             var okResult = Assert.IsType<NotFoundResult>(result);
         }
         [Theory]
-        [InlineData("İstanbul")]
-        public async void GetPersonCountByLocation_ActionRun_ReturnOkObjectResult(string location)
+        [InlineData("İstanbul",1)]
+        public async void GetPersonCountByLocation_ActionRun_ReturnOkObjectResult(string location,int typeId)
         {
             var personCountList = contacts;
-            _mockRepo.Setup(x => x.GetPersonCountByLocation(location)).ReturnsAsync(personCountList);
+            _mockRepo.Setup(x => x.GetPersonCountByLocation(location,typeId)).ReturnsAsync(personCountList);
 
-            var result = await _controller.GetPersonCountByLocation(location);
+            var result = await _controller.GetPersonCountByLocation(location,typeId);
 
             var okResult = Assert.IsType<OkObjectResult>(result);
 
-            _mockRepo.Verify(x => x.GetPersonCountByLocation(location), Times.Once);
+            _mockRepo.Verify(x => x.GetPersonCountByLocation(location,typeId), Times.Once);
 
 
             var returnPersons = Assert.IsType<int>(okResult.Value);
@@ -102,27 +105,27 @@ namespace TestAssessment
             Assert.Equal<int>(2, returnPersons);
         }
         [Theory]
-        [InlineData("İstanbul")]
-        public async void GetPersonCountByLocation_ActionRun_NotFoundResult(string location)
+        [InlineData("İstanbul",1)]
+        public async void GetPersonCountByLocation_ActionRun_NotFoundResult(string location,int typeId)
         {
             List<Contact> contacts = null;
-            _mockRepo.Setup(x => x.GetPersonCountByLocation(location)).ReturnsAsync(contacts);
-            var result = await _controller.GetPersonCountByLocation(location);
+            _mockRepo.Setup(x => x.GetPersonCountByLocation(location,typeId)).ReturnsAsync(contacts);
+            var result = await _controller.GetPersonCountByLocation(location,typeId);
             var okResult = Assert.IsType<NotFoundResult>(result);
         }
 
         [Theory]
-        [InlineData("İstanbul")]
-        public async void GetPhoneCountByLocation_ActionRun_ReturnOkObjectResult(string location)
+        [InlineData("İstanbul",1)]
+        public async void GetPhoneCountByLocation_ActionRun_ReturnOkObjectResult(string location, int typeId)
         {
             var phoneCountList = contacts;
-            _mockRepo.Setup(x => x.GetPhoneCountByLocation(location)).ReturnsAsync(phoneCountList);
+            _mockRepo.Setup(x => x.GetPhoneCountByLocation(location,typeId)).ReturnsAsync(phoneCountList);
 
-            var result = await _controller.GetPhoneCountByLocation(location);
+            var result = await _controller.GetPhoneCountByLocation(location,typeId);
 
             var okResult = Assert.IsType<OkObjectResult>(result);
 
-            _mockRepo.Verify(x => x.GetPhoneCountByLocation(location), Times.Once);
+            _mockRepo.Verify(x => x.GetPhoneCountByLocation(location,typeId), Times.Once);
 
 
             var returnPersons = Assert.IsType<int>(okResult.Value);
@@ -130,12 +133,12 @@ namespace TestAssessment
             Assert.Equal<int>(2, returnPersons);
         }
         [Theory]
-        [InlineData("İstanbul")]
-        public async void GetPhoneCountByLocation_ActionRun_NotFoundResult(string location)
+        [InlineData("İstanbul",1)]
+        public async void GetPhoneCountByLocation_ActionRun_NotFoundResult(string location,int typeId)
         {
             List<Contact> contacts = null;
-            _mockRepo.Setup(x => x.GetPhoneCountByLocation(location)).ReturnsAsync(contacts);
-            var result = await _controller.GetPhoneCountByLocation(location);
+            _mockRepo.Setup(x => x.GetPhoneCountByLocation(location, typeId)).ReturnsAsync(contacts);
+            var result = await _controller.GetPhoneCountByLocation(location,typeId);
             var okResult = Assert.IsType<NotFoundResult>(result);
         }
     }

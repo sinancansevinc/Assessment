@@ -1,11 +1,10 @@
+using Assessment.Data;
+using Assessment.Models;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Assessment
 {
@@ -13,7 +12,50 @@ namespace Assessment
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+
+            using (var scope = host.Services.CreateScope())
+            {
+                var serviceProvider = scope.ServiceProvider;
+
+                var assessmentDbContext = serviceProvider.GetRequiredService<AssessmentDbContext>();
+
+                assessmentDbContext.Database.Migrate();
+
+                if (!assessmentDbContext.ContactTypes.Any())
+                {
+                    assessmentDbContext.ContactTypes.Add(new ContactType
+                    {
+                        Type = "Phone"
+
+                    });
+
+                    assessmentDbContext.SaveChanges();
+
+
+
+                    assessmentDbContext.ContactTypes.Add(new ContactType
+                    {
+                        Type = "Email"
+
+                    });
+
+                    assessmentDbContext.SaveChanges();
+
+                    assessmentDbContext.ContactTypes.Add(new ContactType
+                    {
+                        Type = "Location"
+
+                    });
+
+                    assessmentDbContext.SaveChanges();
+                }
+
+            }
+
+
+
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

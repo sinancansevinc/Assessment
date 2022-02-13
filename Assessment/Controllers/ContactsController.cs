@@ -1,4 +1,5 @@
-﻿using Assessment.Services;
+﻿using Assessment.Cache;
+using Assessment.Services;
 using Assessment.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -44,6 +45,8 @@ namespace Assessment.Controllers
 
         }
         [HttpPost("GetContactInformationsByPersonId")]
+        [Cached(600)]
+
         public async Task<IActionResult> GetContactInformationsByPersonId(int personId)
         {
             var informations = await _contactService.GetContactInformationsByPersonId(personId);

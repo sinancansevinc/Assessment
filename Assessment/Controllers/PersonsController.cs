@@ -1,4 +1,5 @@
-﻿using Assessment.Models;
+﻿using Assessment.Cache;
+using Assessment.Models;
 using Assessment.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,7 @@ namespace Assessment.Controllers
         }
 
         [HttpGet("GetPersons")]
+        [Cached(600)]
         public async Task<IActionResult> GetPersons()
         {
             var persons = await _personService.GetPersons();
