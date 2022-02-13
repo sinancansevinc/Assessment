@@ -1,4 +1,5 @@
 ﻿using Assessment.Dtos;
+using Assessment.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,9 @@ namespace Assessment.Services
 {
     public interface IReportService
     {
-        Task<List<ReportLocationListDto>> GetLocationCount();
-        Task<int> GetPersonCountByLocation(string location);
-        Task<int> GetPhoneCountByLocation(string location);
+        Task<List<ReportLocationDto>> GetLocationCount();
+        Task<List<Contact>> GetPersonCountByLocation(string location);
+        Task<List<Contact>> GetPhoneCountByLocation(string location);
+
     }
 }

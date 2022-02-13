@@ -7,7 +7,7 @@ namespace Assessment.ViewModels
 {
     public class ContactCreateDto
     {
-        public int EmployeeId { get; set; }
+        public int PersonId { get; set; }
         public int ContactTypeId { get; set; }
         public string ContactContent { get; set; }
     }

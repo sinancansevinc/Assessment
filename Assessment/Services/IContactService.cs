@@ -1,4 +1,5 @@
 ﻿using Assessment.Dtos;
+using Assessment.Models;
 using Assessment.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace Assessment.Services
     {
         Task AddContactInformation(ContactCreateDto personContactViewModel);
         Task DeleteContactInformation(int contactId);
-        Task<List<ContactListDto>> GetContactInformationsByEmployeeId(int employeeId);
+        Task<List<ContactDto>> GetContactInformationsByPersonId(int personId);
+        Task<Contact> GetContactInformationById(int id);
     }
 }

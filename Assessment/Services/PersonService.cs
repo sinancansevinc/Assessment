@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Assessment.Services
 {
-    public class PersonService:IPersonService
+    public class PersonService : IPersonService
     {
         private readonly AssessmentDbContext _context;
 
@@ -39,6 +39,18 @@ namespace Assessment.Services
 
             return persons = new List<Person>();
 
+        }
+
+        public async Task<Person> GetPersonById(int id)
+        {
+            var person = await _context.Persons.FirstOrDefaultAsync(p => p.UUID == id);
+            
+            if (person != null)
+            {
+                return person;
+            }
+
+            return person = new Person();
         }
 
         public async Task DeletePerson(int id)

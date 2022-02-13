@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace Assessment.Dtos
 {
-    public class ReportLocationListDto
+    public class ReportPhoneDto
     {
-        public string Location { get; set; }
-        public int PersonCount { get; set; }
+        public string PhoneCount { get; set; }
     }
 }

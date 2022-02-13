@@ -21,42 +21,38 @@ namespace Assessment.Controllers
         }
 
         [HttpPost("AddContactInformation")]
-        public async Task<IActionResult> AddContactInformation(ContactCreateDto personContactViewModel)
+        public async Task<IActionResult> AddContactInformation(ContactCreateDto contactCreateDto)
         {
-            try
-            {
-                await _contactService.AddContactInformation(personContactViewModel);
-                return Ok("Contact information added");
-            }
-            catch
-            {
-                return BadRequest("Contact information can not be added");
-                
-            }
+
+            await _contactService.AddContactInformation(contactCreateDto);
+            return Ok("Contact information added");
         }
-        [HttpPost("DeleteContactInformation")]
+
+        [HttpDelete("DeleteContactInformation")]
         public async Task<IActionResult> DeleteContactInformation(int contactId)
         {
-            try
+
+            var contact = await _contactService.GetContactInformationById(contactId);
+
+            if (contact == null)
             {
-                await _contactService.DeleteContactInformation(contactId);
-                return Ok("Contact information is deleted");
+                return NotFound();
             }
-            catch
-            {
-                return BadRequest("Contact information can not be deleted");
-            }
+
+            await _contactService.DeleteContactInformation(contactId);
+            return NoContent();
+
         }
-        [HttpPost("GetContactInformationsByEmployeeId")]
-        public async Task<IActionResult> GetContactInformationsByEmployeeId(int employeeId)
+        [HttpPost("GetContactInformationsByPersonId")]
+        public async Task<IActionResult> GetContactInformationsByPersonId(int personId)
         {
-            var informations = await _contactService.GetContactInformationsByEmployeeId(employeeId);
-            if (informations.Any())
+            var informations = await _contactService.GetContactInformationsByPersonId(personId);
+            if (informations != null)
             {
                 return Ok(informations);
             }
 
-            return BadRequest("Informations are not found");
+            return NotFound();
         }
     }
 }

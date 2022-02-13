@@ -19,31 +19,43 @@ namespace Assessment.Controllers
             _reportService = reportService;
         }
 
-        [HttpGet("GetLocationCount")]
-        public async Task<IActionResult> GetLocationCount()
+        [HttpGet("GetLocationCountOrderByDescending")]
+        public async Task<IActionResult> GetLocationCountOrderByDescending()
         {
             var locationCountList = await _reportService.GetLocationCount();
 
-            if (locationCountList.Any())
+            if (locationCountList != null)
             {
                 return Ok(locationCountList);
             }
 
-            return BadRequest();
+            return NotFound();
         }
         [HttpPost("GetPersonCountByLocation")]
         public async Task<IActionResult> GetPersonCountByLocation(string location)
         {
             var personCountList = await _reportService.GetPersonCountByLocation(location);
 
-            return Ok(personCountList);
+            if (personCountList != null)
+            {
+                return Ok(personCountList.Count);
+            }
+
+            return NotFound();
+
         }
         [HttpPost("GetPhoneCountByLocation")]
         public async Task<IActionResult> GetPhoneCountByLocation(string location)
         {
             var phoneCountList = await _reportService.GetPhoneCountByLocation(location);
 
-            return Ok(phoneCountList);
+            if (phoneCountList != null)
+            {
+                return Ok(phoneCountList.Count);
+
+            }
+
+            return NotFound();
 
         }
     }

@@ -30,44 +30,35 @@ namespace Assessment.Controllers
         [HttpPost("AddPerson")]
         public async Task<IActionResult> AddPerson(Person person)
         {
-            try
-            {
-               await _personService.AddPerson(person);
-                return Ok("Person is addedd");
-            }
-            catch
-            {
-                return BadRequest("Person can not be added");
-                
-            }
+
+            await _personService.AddPerson(person);
+            return Ok("Person is added");
+
         }
-        [HttpPost("DeletePerson")]
+
+        [HttpDelete("DeletePerson")]
         public async Task<IActionResult> DeletePerson(int id)
         {
-            try
-            {
-                await _personService.DeletePerson(id);
-                return Ok("Person is deleted");
-            }
-            catch
-            {
-                return BadRequest("Person can not be deleted");
+            var person = await _personService.GetPersonById(id);
 
+            if (person == null)
+            {
+                return NotFound();
             }
+
+            await _personService.DeletePerson(id);
+            return NoContent();
         }
-        [HttpPost("UpdatePerson")]
-        public IActionResult UpdatePerson(Person person)
+        [HttpPut("UpdatePerson")]
+        public IActionResult UpdatePerson(int id, Person person)
         {
-            try
+            if (id != person.UUID)
             {
-                _personService.UpdatePerson(person);
-                return Ok("Person is updated");
+                return BadRequest();
             }
-            catch (Exception ex)
-            {
-                return BadRequest("Person can not be updated due to " + ex.Message);
 
-            }
+            _personService.UpdatePerson(person);
+            return NoContent();
         }
 
     }

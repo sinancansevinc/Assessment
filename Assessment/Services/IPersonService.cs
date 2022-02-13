@@ -11,6 +11,7 @@ namespace Assessment.Services
         Task AddPerson(Person person);
         void UpdatePerson(Person person);
         Task<List<Person>> GetPersons();
+        Task<Person> GetPersonById(int id);
         Task DeletePerson(int id);
 
     }

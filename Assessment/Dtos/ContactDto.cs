@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Assessment.Dtos
 {
-    public class ContactListDto
+    public class ContactDto
     {
         public string Name { get; set; }
         public string Surname { get; set; }

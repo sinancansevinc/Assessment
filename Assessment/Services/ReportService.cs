@@ -1,5 +1,6 @@
 ﻿using Assessment.Data;
 using Assessment.Dtos;
+using Assessment.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,38 +18,38 @@ namespace Assessment.Services
             _context = context;
         }
 
-        public async Task<List<ReportLocationListDto>> GetLocationCount()
+        public async Task<List<ReportLocationDto>> GetLocationCount()
         {
             var locationInformations = await _context.Contacts.Where(t => t.TypeId == 3).ToListAsync();
 
-            var list = locationInformations.GroupBy(l => l.ContactContent).Select(c => new ReportLocationListDto
+            var list = locationInformations.GroupBy(l => l.ContactContent).Select(c => new ReportLocationDto
             {
 
                 Location = c.Key,
-                PersonCount = c.Select(l => l.EmployeeId).Distinct().Count()
+                PersonCount = c.Select(l => l.PersonId).Distinct().Count()
 
             }).OrderByDescending(p => p.PersonCount).ToList();
 
             return list;
         }
-        public async Task<int> GetPersonCountByLocation(string location)
+        public async Task<List<Contact>> GetPersonCountByLocation(string location)
         {
             var locationList = await _context.Contacts.Where(t => t.TypeId == 3 && t.ContactContent == location).ToListAsync();
 
-            return locationList.Count();
+            return locationList;
         }
-        public async Task<int> GetPhoneCountByLocation(string location)
+        public async Task<List<Contact>> GetPhoneCountByLocation(string location)
         {
             var locationInformations = await _context.Contacts.Where(t => t.TypeId == 3 && t.ContactContent==location).ToListAsync();
 
             var result = (from c in locationInformations
-                          join p in _context.Contacts on c.EmployeeId equals p.EmployeeId into ps
+                          join p in _context.Contacts on c.PersonId equals p.PersonId into ps
                           from p in ps.DefaultIfEmpty()
                           where p.TypeId == 1
                           select p).ToList();
-                         
 
-            return result.Count();
+
+            return result;
         }
     }
 }

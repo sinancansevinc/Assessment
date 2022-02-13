@@ -17,6 +17,6 @@ namespace Assessment.Models
         public string ContactContent { get; set; }
         [Required]
 
-        public int EmployeeId { get; set; }
+        public int PersonId { get; set; }
     }
 }
