@@ -1,8 +1,3 @@
-## assessment-api
-
-A project for Assessment to Rise Technology
-
-
 ### Tech stack
 - .NET Core 5
 - MsSQL
