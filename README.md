@@ -39,5 +39,5 @@ You can access routes with using swagger.
 
 ### Installation guide
 ```
-git clone https://github.com/sinancansevinc/Assessment.git
+git clone https://github.com/sinancansevinc/contact-service.git
 ```
